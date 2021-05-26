@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>CSV Generator</title>
+  <script src="../node_modules/jquery/dist/jquery.js"></script>
+</head>
+
+<body>
+  <pre><%- data %></pre>
+  <form method="POST" action="/submit" id="textForm">
+    <textarea name="json">Example</textarea>
+    <input type="submit">
+  </form>
+
+  <form method="POST" action="/upload" enctype="multipart/form-data" id="fileForm">
+    <input type="file" name="jsonFile">
+    <input type="submit">
+  </form>
+
+  <script>
+    $(document).ready(function () {
+      $("fileForm").submit(function (e) {
+        e.preventDefault();
+        var file = $('#fileForm .file'[0].files[0]);
+        var data = new FormData();
+        data.append(file);
+
+        $.ajax({
+          type: "POST",
+          url: "/upload",
+          encode: true,
+        }).done(function (data) {
+          console.log(data);
+        });
+
+      });
+    });
+  </script>
+</body>
+
+</html>
